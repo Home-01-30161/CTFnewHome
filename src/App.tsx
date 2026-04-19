@@ -44,7 +44,7 @@ interface QuestDef { id: number; label: string; difficulty: number; systemPrompt
 interface CapturedFlag { flag: string; timestamp: Date; questId: number; }
 interface CartItem { productId: string; quantity: number; }
 interface StoreDef { id: string; name: string; icon: string; bannerGradient: string; description: string; descEN: string; isOutOfStock: boolean; flag: string; }
-interface StoreProduct { id: string; storeId: string; name: string; nameTH: string; priceThb: number; dealerPriceThb: number; emoji: string; bg: string; category: string; outOfStock: boolean; rating: number; reviewCount: number; desc: string; descLang: 'th' | 'en' | 'ja'; questHook: number | null; specList: string[]; }
+interface StoreProduct { id: string; storeId: string; name: string; nameTH: string; priceThb: number; dealerPriceThb: number; emoji: string; imageUrl?: string; bg: string; category: string; outOfStock: boolean; rating: number; reviewCount: number; desc: string; descLang: 'th' | 'en' | 'ja'; questHook: number | null; specList: string[]; }
 interface Order { id: string; items: { productId: string; quantity: number; unitPrice: number; name: string; emoji: string }[]; total: number; timestamp: Date; status: 'confirmed'; }
 
 // ─── Quest Definitions ──────────────────────────────────────────────────────────
@@ -63,14 +63,15 @@ const STORES: StoreDef[] = [
 
 // ─── Store Products ─────────────────────────────────────────────────────────────
 const STORE_PRODUCTS: StoreProduct[] = [
-  { id: 'sp1', storeId: 'shoe-keeper', name: 'Classic White Sneakers', nameTH: 'Classic White Sneakers', priceThb: 1799, dealerPriceThb: 1079, emoji: '🥿', bg: 'from-gray-50 to-slate-100', category: 'รองเท้า Casual', outOfStock: false, rating: 4.6, reviewCount: 38, desc: 'Minimalist leather-look sneakers in clean white. Versatile enough for both casual days and smart casual occasions. Padded insole for all-day comfort. Available in sizes 36–45.', descLang: 'en', questHook: 1, specList: ['Upper: Faux Leather', 'Sole: Rubber grip', 'Sizes: EU 36–45', 'Colors: White, Off-white', 'Insole: Memory foam padded', 'Care: Wipe with damp cloth'] },
-  { id: 'sp2', storeId: 'shoe-keeper', name: 'Black Leather Boots', nameTH: 'Black Leather Boots', priceThb: 3199, dealerPriceThb: 1919, emoji: '🥾', bg: 'from-stone-100 to-stone-200', category: 'บูท', outOfStock: false, rating: 4.8, reviewCount: 22, desc: 'รองเท้าบูทหนังสีดำสไตล์คลาสสิก เหมาะสำหรับทุกโอกาส ไม่ว่าจะเป็นงานออฟฟิศหรือออกงาน วัสดุหนังแท้คุณภาพสูง ทนทาน ดูแลรักษาง่าย มีซิปด้านข้างสำหรับสะดวกในการสวมใส่', descLang: 'th', questHook: 2, specList: ['วัสดุ: หนังแท้ Full-grain', 'ซับใน: ผ้า Microfiber', 'ส้น: 3.5 cm Block heel', 'ขนาด: EU 36–44', 'ซิป: ด้านข้าง YKK', 'รับประกัน: 1 ปี'] },
-  { id: 'sp3', storeId: 'shoe-keeper', name: 'Running Sport Shoes', nameTH: 'Running Sport Shoes', priceThb: 2300, dealerPriceThb: 1380, emoji: '👟', bg: 'from-red-50 to-orange-100', category: 'รองเท้ากีฬา', outOfStock: false, rating: 4.5, reviewCount: 51, desc: 'High-performance running shoes with responsive foam cushioning and breathable mesh upper. Designed to support natural foot movement and reduce fatigue on long runs. Reflective accents for low-light visibility.', descLang: 'en', questHook: 1, specList: ['Upper: Engineered Mesh', 'Midsole: EVA foam cushion', 'Outsole: Carbon rubber', 'Drop: 8mm', 'Weight: 280g (size 42)', 'Sizes: EU 38–47'] },
-  { id: 'sp4', storeId: 'shoe-keeper', name: 'Casual Slip-On Loafers', nameTH: 'Casual Slip-On Loafers', priceThb: 1450, dealerPriceThb: 870, emoji: '👞', bg: 'from-amber-50 to-yellow-100', category: 'รองเท้า Casual', outOfStock: false, rating: 4.3, reviewCount: 17, desc: 'รองเท้าแบบสวมสไตล์ Loafer ดีไซน์เรียบง่าย สวมใส่สบาย เหมาะสำหรับวันพักผ่อนหรือใส่ในออฟฟิศ พื้นยางกันลื่น น้ำหนักเบา ทำให้เดินสบายตลอดวัน', descLang: 'th', questHook: null, specList: ['วัสดุ: Canvas ทอละเอียด', 'พื้น: ยางธรรมชาติกันลื่น', 'ขนาด: EU 36–45', 'น้ำหนัก: 180g/ข้าง', 'สี: กรมท่า, น้ำตาล, ดำ', 'ซัก: ด้วยมือเท่านั้น'] },
-  { id: 'sp5', storeId: 'backypack', name: 'Explorer Backpack 35L', nameTH: 'Explorer Backpack 35L', priceThb: 2850, dealerPriceThb: 1710, emoji: '🎒', bg: 'from-emerald-50 to-teal-100', category: 'กระเป๋า', outOfStock: true, rating: 4.7, reviewCount: 29, desc: 'A rugged 35L backpack built for adventure.', descLang: 'en', questHook: null, specList: [] },
-  { id: 'sp6', storeId: 'backypack', name: 'Mini City Pack', nameTH: 'Mini City Pack', priceThb: 1600, dealerPriceThb: 960, emoji: '🏙️', bg: 'from-cyan-50 to-blue-100', category: 'กระเป๋า', outOfStock: true, rating: 4.4, reviewCount: 14, desc: 'Compact city backpack for daily commuters.', descLang: 'en', questHook: null, specList: [] },
-  { id: 'sp7', storeId: 'backypack', name: 'Laptop Carrier Pro', nameTH: 'Laptop Carrier Pro', priceThb: 3550, dealerPriceThb: 2130, emoji: '💼', bg: 'from-slate-50 to-gray-100', category: 'กระเป๋า', outOfStock: true, rating: 4.9, reviewCount: 8, desc: 'Professional laptop carrier with TSA-approved lock.', descLang: 'en', questHook: null, specList: [] },
-  { id: 'sp8', storeId: 'backypack', name: 'Hiking Daypack', nameTH: 'Hiking Daypack', priceThb: 1950, dealerPriceThb: 1170, emoji: '🏔️', bg: 'from-green-50 to-emerald-100', category: 'กระเป๋า', outOfStock: true, rating: 4.6, reviewCount: 33, desc: 'Lightweight hiking daypack with hydration bladder compatibility.', descLang: 'en', questHook: null, specList: [] },
+  // imageUrl: วางไฟล์รูปใน CTFShopweb/public/images/
+  { id: 'sp1', storeId: 'shoe-keeper', name: 'Classic White Sneakers', nameTH: 'Classic White Sneakers', priceThb: 1799, dealerPriceThb: 1079, emoji: '🥿', imageUrl: '/images/sp1-sneakers.png', bg: 'from-gray-50 to-slate-100', category: 'รองเท้า Casual', outOfStock: false, rating: 4.6, reviewCount: 38, desc: 'Minimalist leather-look sneakers in clean white. Versatile enough for both casual days and smart casual occasions. Padded insole for all-day comfort. Available in sizes 36–45.', descLang: 'en', questHook: 1, specList: ['Upper: Faux Leather', 'Sole: Rubber grip', 'Sizes: EU 36–45', 'Colors: White, Off-white', 'Insole: Memory foam padded', 'Care: Wipe with damp cloth'] },
+  { id: 'sp2', storeId: 'shoe-keeper', name: 'Black Leather Boots', nameTH: 'Black Leather Boots', priceThb: 3199, dealerPriceThb: 1919, emoji: '🥾', imageUrl: '/images/sp2-boots.png', bg: 'from-stone-100 to-stone-200', category: 'บูท', outOfStock: false, rating: 4.8, reviewCount: 22, desc: 'รองเท้าบูทหนังสีดำสไตล์คลาสสิก เหมาะสำหรับทุกโอกาส ไม่ว่าจะเป็นงานออฟฟิศหรือออกงาน วัสดุหนังแท้คุณภาพสูง ทนทาน ดูแลรักษาง่าย มีซิปด้านข้างสำหรับสะดวกในการสวมใส่', descLang: 'th', questHook: 2, specList: ['วัสดุ: หนังแท้ Full-grain', 'ซับใน: ผ้า Microfiber', 'ส้น: 3.5 cm Block heel', 'ขนาด: EU 36–44', 'ซิป: ด้านข้าง YKK', 'รับประกัน: 1 ปี'] },
+  { id: 'sp3', storeId: 'shoe-keeper', name: 'Running Sport Shoes', nameTH: 'Running Sport Shoes', priceThb: 2300, dealerPriceThb: 1380, emoji: '👟', imageUrl: 'images/sp3-sport.png', bg: 'from-red-50 to-orange-100', category: 'รองเท้ากีฬา', outOfStock: false, rating: 4.5, reviewCount: 51, desc: 'High-performance running shoes with responsive foam cushioning and breathable mesh upper. Designed to support natural foot movement and reduce fatigue on long runs. Reflective accents for low-light visibility.', descLang: 'en', questHook: 1, specList: ['Upper: Engineered Mesh', 'Midsole: EVA foam cushion', 'Outsole: Carbon rubber', 'Drop: 8mm', 'Weight: 280g (size 42)', 'Sizes: EU 38–47'] },
+  { id: 'sp4', storeId: 'shoe-keeper', name: 'Casual Slip-On Loafers', nameTH: 'Casual Slip-On Loafers', priceThb: 1450, dealerPriceThb: 870, emoji: '👞', imageUrl: 'images/sp4-loafers.png', bg: 'from-amber-50 to-yellow-100', category: 'รองเท้า Casual', outOfStock: false, rating: 4.3, reviewCount: 17, desc: 'รองเท้าแบบสวมสไตล์ Loafer ดีไซน์เรียบง่าย สวมใส่สบาย เหมาะสำหรับวันพักผ่อนหรือใส่ในออฟฟิศ พื้นยางกันลื่น น้ำหนักเบา ทำให้เดินสบายตลอดวัน', descLang: 'th', questHook: null, specList: ['วัสดุ: Canvas ทอละเอียด', 'พื้น: ยางธรรมชาติกันลื่น', 'ขนาด: EU 36–45', 'น้ำหนัก: 180g/ข้าง', 'สี: กรมท่า, น้ำตาล, ดำ', 'ซัก: ด้วยมือเท่านั้น'] },
+  { id: 'sp5', storeId: 'backypack', name: 'Explorer Backpack 35L', nameTH: 'Explorer Backpack 35L', priceThb: 2850, dealerPriceThb: 1710, emoji: '🎒', imageUrl: '', /* → /images/sp5-explorer.jpg */ bg: 'from-emerald-50 to-teal-100', category: 'กระเป๋า', outOfStock: true, rating: 4.7, reviewCount: 29, desc: 'A rugged 35L backpack built for adventure.', descLang: 'en', questHook: null, specList: [] },
+  { id: 'sp6', storeId: 'backypack', name: 'Mini City Pack', nameTH: 'Mini City Pack', priceThb: 1600, dealerPriceThb: 960, emoji: '🏙️', imageUrl: '', /* → /images/sp6-city.jpg */ bg: 'from-cyan-50 to-blue-100', category: 'กระเป๋า', outOfStock: true, rating: 4.4, reviewCount: 14, desc: 'Compact city backpack for daily commuters.', descLang: 'en', questHook: null, specList: [] },
+  { id: 'sp7', storeId: 'backypack', name: 'Laptop Carrier Pro', nameTH: 'Laptop Carrier Pro', priceThb: 3550, dealerPriceThb: 2130, emoji: '💼', imageUrl: '', /* → /images/sp7-laptop.jpg */ bg: 'from-slate-50 to-gray-100', category: 'กระเป๋า', outOfStock: true, rating: 4.9, reviewCount: 8, desc: 'Professional laptop carrier with TSA-approved lock.', descLang: 'en', questHook: null, specList: [] },
+  { id: 'sp8', storeId: 'backypack', name: 'Hiking Daypack', nameTH: 'Hiking Daypack', priceThb: 1950, dealerPriceThb: 1170, emoji: '🏔️', imageUrl: '', /* → /images/sp8-hiking.jpg */ bg: 'from-green-50 to-emerald-100', category: 'กระเป๋า', outOfStock: true, rating: 4.6, reviewCount: 33, desc: 'Lightweight hiking daypack with hydration bladder compatibility.', descLang: 'en', questHook: null, specList: [] },
 ];
 
 const SHOP_PRODUCTS = STORE_PRODUCTS.filter(p => p.storeId === 'shoe-keeper');
@@ -104,6 +105,27 @@ function getProductInfo(productId: string, dealerApproved: boolean) {
 }
 const cartTotal = (cart: CartItem[], dealerApproved: boolean) => cart.reduce((sum, item) => sum + getProductInfo(item.productId, dealerApproved).price * item.quantity, 0);
 const cartCount = (cart: CartItem[]) => cart.reduce((s, i) => s + i.quantity, 0);
+
+// ─── ProductImage component ─────────────────────────────────────────────────
+function ProductImage({ imageUrl, emoji, alt, className, grayscale = false, style }: {
+  imageUrl?: string; emoji: string; alt: string; className: string; grayscale?: boolean; style?: React.CSSProperties;
+}) {
+  const [err, setErr] = useState(false);
+  const hasImg = imageUrl && !err;
+  return (
+    <div className={`${className} overflow-hidden flex items-center justify-center relative ${grayscale ? 'grayscale opacity-60' : ''}`} style={style}>
+      {hasImg ? (
+        <img src={imageUrl} alt={alt} onError={() => setErr(true)}
+          className="w-full h-full object-cover absolute inset-0" />
+      ) : (
+        <div className="flex flex-col items-center justify-center gap-1 text-gray-400 select-none">
+          <span className="text-5xl opacity-25">{emoji}</span>
+          <span className="text-[10px] font-semibold tracking-wide opacity-40">ยังไม่มีรูป</span>
+        </div>
+      )}
+    </div>
+  );
+}
 
 // ══════════════════════════════════════════════════════════════════════════════
 export default function App() {
@@ -630,7 +652,12 @@ export default function App() {
                 <div key={product.id}
                   onClick={() => { setSelectedProductId(product.id); setView('product'); setActiveProductTab('details'); }}
                   className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer group">
-                  <div className={`h-44 bg-gradient-to-br ${product.bg} flex items-center justify-center text-[72px] group-hover:scale-110 transition-transform duration-500`}>{product.emoji}</div>
+                  <ProductImage
+                    imageUrl={product.imageUrl}
+                    emoji={product.emoji}
+                    alt={product.nameTH}
+                    className={`h-44 bg-gradient-to-br ${product.bg} group-hover:scale-110 transition-transform duration-500`}
+                  />
                   <div className="p-4">
                     <div className="text-[10px] text-gray-400 font-mono uppercase tracking-wider mb-0.5">{product.category}</div>
                     <h3 className="font-extrabold text-gray-900 text-sm leading-snug mb-2">{product.nameTH}</h3>
@@ -731,7 +758,13 @@ export default function App() {
                   {storeProducts.map(sp => (
                     <div key={sp.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden relative">
                       {sp.outOfStock && <div className="absolute top-2 right-2 z-10 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">หมดสต็อก</div>}
-                      <div className={`h-36 bg-gradient-to-br ${sp.bg} flex items-center justify-center text-[60px] ${sp.outOfStock ? 'grayscale opacity-60' : ''}`}>{sp.emoji}</div>
+                      <ProductImage
+                        imageUrl={sp.imageUrl}
+                        emoji={sp.emoji}
+                        alt={sp.nameTH}
+                        className={`h-36 bg-gradient-to-br ${sp.bg}`}
+                        grayscale={sp.outOfStock}
+                      />
                       <div className="p-4">
                         <h3 className="font-extrabold text-gray-900 text-sm leading-snug mb-1">{sp.nameTH}</h3>
                         <div className="flex items-baseline gap-2 mb-3">
@@ -765,7 +798,13 @@ export default function App() {
             <div className="max-w-4xl mx-auto px-4 py-6">
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
                 <div className="flex flex-col md:flex-row">
-                  <div className={`md:w-80 shrink-0 bg-gradient-to-br ${selectedProduct.bg} flex items-center justify-center text-[100px] py-12`}>{selectedProduct.emoji}</div>
+                  <ProductImage
+                    imageUrl={selectedProduct.imageUrl}
+                    emoji={selectedProduct.emoji}
+                    alt={selectedProduct.nameTH}
+                    className={`md:w-80 shrink-0 bg-gradient-to-br ${selectedProduct.bg}`}
+                    style={{ minHeight: '280px' } as React.CSSProperties}
+                  />
                   <div className="flex-1 p-6 flex flex-col justify-between">
                     <div>
                       <div className="text-xs text-gray-400 font-mono uppercase tracking-widest mb-1">{selectedProduct.category}</div>
